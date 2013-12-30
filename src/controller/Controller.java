@@ -39,7 +39,6 @@ package controller;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.text.DecimalFormat;
 import javax.swing.*;
 import model.ADataClass;
@@ -51,7 +50,7 @@ import view.View;
 // class Controller
 //
 
-public class Controller implements WindowListener, EventHandler, Runnable
+public class Controller implements EventHandler, Runnable
 {
 
     private ADataClass aDataClass;
@@ -103,7 +102,7 @@ public void init()
     aDataClass = new ADataClass();
     aDataClass.init();
 
-    view = new View(this, this, aDataClass);
+    view = new View(this, aDataClass);
     view.init();
 
     //create and load the program options

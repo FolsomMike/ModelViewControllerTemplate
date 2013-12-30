@@ -29,6 +29,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.font.TextAttribute;
 import java.util.HashMap;
@@ -48,7 +49,7 @@ import toolkit.Tools;
 // class View
 //
 
-public class View implements ActionListener
+public class View implements ActionListener, WindowListener
 {
 
     private JFrame mainFrame;
@@ -71,7 +72,6 @@ public class View implements ActionListener
     private javax.swing.Timer mainTimer;
 
     private EventHandler eventHandler;
-    private WindowListener windowListener;
 
     private Font blackSmallFont, redSmallFont;
     private Font redLargeFont, greenLargeFont, yellowLargeFont, blackLargeFont;
@@ -83,12 +83,10 @@ public class View implements ActionListener
 // View::View (constructor)
 //
 
-public View(EventHandler pEventHandler, WindowListener pWindowListener,
-                                                        ADataClass pADataClass)
+public View(EventHandler pEventHandler, ADataClass pADataClass)
 {
 
     eventHandler = pEventHandler;
-    windowListener = pWindowListener;
     aDataClass = pADataClass;
 
 }//end of View::View (constructor)
@@ -153,7 +151,7 @@ public void setupMainFrame()
     //set the min/max/preferred sizes of the panel to set the size of the frame
     Tools.setSizes(mainPanel, 200, 300);
 
-    mainFrame.addWindowListener(windowListener);
+    mainFrame.addWindowListener(this);
 
     //turn off default bold for Metal look and feel
     UIManager.put("swing.boldMetal", Boolean.FALSE);
@@ -423,6 +421,48 @@ public void actionPerformed(ActionEvent e)
 
 }//end of View::actionPerformed
 //-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// View::windowClosing
+//
+// Handles actions necessary when the window is closing
+//
+
+@Override
+public void windowClosing(WindowEvent e)
+{
+
+    eventHandler.windowClosing(e);
+
+}//end of Controller::windowClosing
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// View::(various window listener functions)
+//
+// These functions are implemented per requirements of interface WindowListener
+// but do nothing at the present time.  As code is added to each function, it
+// should be moved from this section and formatted properly.
+//
+
+@Override
+public void windowActivated(WindowEvent e){}
+@Override
+public void windowDeactivated(WindowEvent e){}
+@Override
+public void windowOpened(WindowEvent e){}
+//@Override
+//public void windowClosing(WindowEvent e){}
+@Override
+public void windowClosed(WindowEvent e){}
+@Override
+public void windowIconified(WindowEvent e){}
+@Override
+public void windowDeiconified(WindowEvent e){}
+
+//end of View::(various window listener functions)
+//-----------------------------------------------------------------------------
+
 
 }//end of class View
 //-----------------------------------------------------------------------------
