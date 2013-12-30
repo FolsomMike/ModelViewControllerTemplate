@@ -8,11 +8,10 @@
 * This class is the View in a Model-View-Controller architecture.
 * It creates and handles all GUI components.
 * It knows about the Model, but not the Controller.
-* All GUI controls are set up to send their action messages to an
-*  ActionListener, a WindowListener, or other valid listener external to the
-*  View -- a pointer to this actionListener is provided via the View
-*  constructor. The Controller often specifies itself as the listener for all
-*  of the possible types of actions.
+*
+* All GUI control events, including Timer events are caught by this object
+* and passed on to the "Controller" object pointed by the class member
+* "eventHandler" for final handling.
 *
 */
 
@@ -22,11 +21,13 @@ package view;
 
 //-----------------------------------------------------------------------------
 
+import controller.EventHandler;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.awt.font.TextAttribute;
@@ -39,6 +40,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import model.ADataClass;
 import toolkit.Tools;
 
@@ -46,7 +48,7 @@ import toolkit.Tools;
 // class View
 //
 
-public class View
+public class View implements ActionListener
 {
 
     private JFrame mainFrame;
@@ -66,7 +68,9 @@ public class View
     private Help help;
     private About about;
 
-    private ActionListener actionListener;
+    private javax.swing.Timer mainTimer;
+
+    private EventHandler eventHandler;
     private WindowListener windowListener;
 
     private Font blackSmallFont, redSmallFont;
@@ -79,11 +83,11 @@ public class View
 // View::View (constructor)
 //
 
-public View(ActionListener pActionListener, WindowListener pWindowListener,
+public View(EventHandler pEventHandler, WindowListener pWindowListener,
                                                         ADataClass pADataClass)
 {
 
-    actionListener = pActionListener;
+    eventHandler = pEventHandler;
     windowListener = pWindowListener;
     aDataClass = pADataClass;
 
@@ -114,7 +118,7 @@ public void init()
     tsLog.appendLine("Hello"); tsLog.appendLine("");
 
     //add a menu to the main form, passing this as the action listener
-    mainFrame.setJMenuBar(mainMenu = new MainMenu(actionListener));
+    mainFrame.setJMenuBar(mainMenu = new MainMenu(this));
 
     //create various fonts for use by the program
     createFonts();
@@ -140,11 +144,11 @@ public void init()
 public void setupMainFrame()
 {
 
-    mainFrame = new JFrame("Content Handler");
+    mainFrame = new JFrame("Model View Controller Template");
 
     //add a JPanel to the frame to provide a familiar container
     mainPanel = new JPanel();
-    mainFrame.getContentPane().add(mainPanel);
+    mainFrame.setContentPane(mainPanel);
 
     //set the min/max/preferred sizes of the panel to set the size of the frame
     Tools.setSizes(mainPanel, 200, 300);
@@ -159,7 +163,8 @@ public void setupMainFrame()
         UIManager.setLookAndFeel(
             UIManager.getCrossPlatformLookAndFeelClassName());
         }
-    catch (Exception e) {
+    catch (ClassNotFoundException | InstantiationException |
+            IllegalAccessException | UnsupportedLookAndFeelException e) {
         System.out.println("Could not set Look and Feel");
         }
 
@@ -232,7 +237,7 @@ private void setupGui()
     JButton loadBtn = new JButton("Load");
     loadBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
     loadBtn.setActionCommand("Load Data From File");
-    loadBtn.addActionListener(actionListener);
+    loadBtn.addActionListener(this);
     loadBtn.setToolTipText("Load data from file.");
     mainPanel.add(loadBtn);
 
@@ -242,7 +247,7 @@ private void setupGui()
     JButton saveBtn = new JButton("Save");
     saveBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
     saveBtn.setActionCommand("Save Data To File");
-    saveBtn.addActionListener(actionListener);
+    saveBtn.addActionListener(this);
     saveBtn.setToolTipText("Save data to file.");
     mainPanel.add(saveBtn);
 
@@ -267,7 +272,7 @@ public void createFonts()
 {
 
     //create small and large red and green fonts for use with display objects
-    HashMap<TextAttribute, Object> map = new HashMap<TextAttribute, Object>();
+    HashMap<TextAttribute, Object> map = new HashMap<>();
 
     blackSmallFont = new Font("Dialog", Font.PLAIN, 12);
 
@@ -386,6 +391,38 @@ public void updateModelDataSet1()
 }//end of View::updateModelDataSet1
 //-----------------------------------------------------------------------------
 
+//-----------------------------------------------------------------------------
+// Controller::setupAndStartMainTimer
+//
+// Prepares and starts a Java Swing timer.
+//
+
+public void setupAndStartMainTimer()
+{
+
+    //main timer has 2 second period
+    mainTimer = new javax.swing.Timer (2000, this);
+    mainTimer.setActionCommand ("Timer");
+    mainTimer.start();
+
+}// end of Controller::setupAndStartMainTimer
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// View::actionPerformed
+//
+// Responds to events and passes them on to the "Controller" (MVC Concept)
+// objects.
+//
+
+@Override
+public void actionPerformed(ActionEvent e)
+{
+
+    eventHandler.actionPerformed(e);
+
+}//end of View::actionPerformed
+//-----------------------------------------------------------------------------
 
 }//end of class View
 //-----------------------------------------------------------------------------

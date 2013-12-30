@@ -21,10 +21,9 @@
 * the View -- it expects the Controller to trigger the View to request data
 * from the Model when necessary.
 *
-* The View does send messages to the Controller indirectly as the screen GUI
-* components such as buttons send action messages to an ActionListener -- in
-* this case the Controller is designated as the ActionListener for all GUI
-* components.
+* The View sends messages to the Controller in the form of action messages
+* to an EventHandler object -- in this case the Controller is designated to the
+* View as the EventHandler.
 *
 * Open Source Policy:
 *
@@ -39,7 +38,6 @@ package controller;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.text.DecimalFormat;
@@ -53,7 +51,7 @@ import view.View;
 // class Controller
 //
 
-public class Controller implements WindowListener, ActionListener, Runnable
+public class Controller implements WindowListener, EventHandler, Runnable
 {
 
     private ADataClass aDataClass;
@@ -61,8 +59,6 @@ public class Controller implements WindowListener, ActionListener, Runnable
     private View view;
 
     private Options options;
-
-    private javax.swing.Timer mainTimer;
 
     private Boolean blinkStatusLabel = false;
 
@@ -116,32 +112,20 @@ public void init()
     //start the control thread
     new Thread(this).start();
 
-    setupAndStartMainTimer();
+    view.setupAndStartMainTimer();
 
 }// end of Controller::init
-//-----------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------------
-// Controller::setupAndStartMainTimer
-//
-// Prepares and starts a Java Swing timer.
-//
-
-public void setupAndStartMainTimer()
-{
-
-    //main timer has 2 second period
-    mainTimer = new javax.swing.Timer (2000, this);
-    mainTimer.setActionCommand ("Timer");
-    mainTimer.start();
-
-}// end of Controller::setupAndStartMainTimer
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // Controller::actionPerformed
 //
 // Responds to events.
+//
+// This is identical to the method employed by  ActionListener objects. This
+// object is not an ActionListener, but uses the same concept for clarity. The
+// "View" (MVC Concept) objects catch GUI events and call this method to pass
+// those events to this "Controller" object.
 //
 
 @Override
