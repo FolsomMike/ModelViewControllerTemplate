@@ -41,6 +41,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import mksystems.mswing.MFloatSpinner;
 import model.ADataClass;
 import model.Options;
 import view.View;
@@ -59,13 +61,13 @@ public class Controller implements EventHandler, Runnable
 
     private Options options;
 
-    private Boolean blinkStatusLabel = false;
+    private final Boolean blinkStatusLabel = false;
 
     private String errorMessage;
 
     private SwingWorker workerThread;
 
-    private DecimalFormat decimalFormat1 = new DecimalFormat("#.0");
+    private final DecimalFormat decimalFormat1 = new DecimalFormat("#.0");
 
     private Font tSafeFont;
     private String tSafeText;
@@ -156,6 +158,60 @@ public void actionPerformed(ActionEvent e)
 }//end of Controller::actionPerformed
 //-----------------------------------------------------------------------------
 
+//-----------------------------------------------------------------------------
+// Controller::stateChanged
+//
+    
+@Override
+public void stateChanged(ChangeEvent ce)
+
+{
+    
+    //if for some reason the object which changed state is not a subclass of
+    //of Component, do nothing as this code only handles Components
+    
+    if (!(ce.getSource() instanceof Component)) {
+        return;
+    }    
+    
+    //cast the object to a Component so it's methods can be accessed
+    Component c = (Component)ce.getSource();
+    
+    String name = ((Component)ce.getSource()).getName();
+        
+    if (name.startsWith("Double Spinner 1")){
+    
+        //Since we know that the Component with the name starting with
+        //"Double Spinner 1" is an MFloatSpinner (because we created it and
+        // used that name for it), it can safely be cast to an MFloatSpinner.
+        //Since the values in that spinner are meant to be doubles, the
+        //getDoubleValue method is used to retrieve the value.
+        
+       double value = ((MFloatSpinner)c).getDoubleValue();
+    
+        view.setTextForDataTArea1("" + value);
+        
+    }
+    
+    if (name.startsWith("Integer Spinner 1")){
+    
+        //Since we know that the Component with the name starting with
+        //"Integer Spinner 1" is an MFloatSpinner (because we created it and
+        // used that name for it), it can safely be cast to an MFloatSpinner.
+        //Since the values in that spinner are meant to be integers, the
+        //getIntValue method is used to retrieve the value.
+        
+        int value = ((MFloatSpinner)c).getIntValue();
+    
+        view.setTextForDataTArea2("" + value);
+        
+    }
+
+        
+}//end of Controller::stateChanged
+//-----------------------------------------------------------------------------
+
+
 /*
 //-----------------------------------------------------------------------------
 // Controller::paintComponent
@@ -183,6 +239,8 @@ public void loadDataFromFile()
 
     view.updateGUIDataSet1();
 
+    view.drawRectangle();
+    
 }//end of Controller::loadDataFromFile
 //-----------------------------------------------------------------------------
 
@@ -498,8 +556,8 @@ public void windowDeiconified(WindowEvent e){}
 
 //end of Controller::(various window listener functions)
 //-----------------------------------------------------------------------------
-
-
+    
+    
 }//end of class Controller
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------

@@ -26,12 +26,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.font.TextAttribute;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -42,6 +44,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import mksystems.mswing.MFloatSpinner;
 import model.ADataClass;
 import toolkit.Tools;
 
@@ -49,13 +54,13 @@ import toolkit.Tools;
 // class View
 //
 
-public class View implements ActionListener, WindowListener
+public class View implements ActionListener, WindowListener, ChangeListener
 {
 
     private JFrame mainFrame;
     private JPanel mainPanel;
 
-    private ADataClass aDataClass;
+    private final ADataClass aDataClass;
 
     private MainMenu mainMenu;
 
@@ -71,7 +76,7 @@ public class View implements ActionListener, WindowListener
 
     private javax.swing.Timer mainTimer;
 
-    private EventHandler eventHandler;
+    private final EventHandler eventHandler;
 
     private Font blackSmallFont, redSmallFont;
     private Font redLargeFont, greenLargeFont, yellowLargeFont, blackLargeFont;
@@ -149,7 +154,7 @@ public void setupMainFrame()
     mainFrame.setContentPane(mainPanel);
 
     //set the min/max/preferred sizes of the panel to set the size of the frame
-    Tools.setSizes(mainPanel, 200, 300);
+    Tools.setSizes(mainPanel, 200, 350);
 
     mainFrame.addWindowListener(this);
 
@@ -257,6 +262,30 @@ private void setupGui()
 
     mainPanel.add(Box.createRigidArea(new Dimension(0,10))); //vertical spacer
 
+    //set this spinner up for use with doubles
+    //the format string "##0" has decimal places
+    //use intSpinner1.getIntValue() to retrieve the value as an integer
+    
+    MFloatSpinner doubleSpinner1 = 
+            new MFloatSpinner(5.5, 1.1, 9.9, 0.1, "##0.0", 60, 20);
+    doubleSpinner1.setName("Double Spinner 1 -- used for doubles");
+    doubleSpinner1.addChangeListener(this);
+    doubleSpinner1.setToolTipText("This is float spinner #1!");
+    mainPanel.add(doubleSpinner1);
+
+    mainPanel.add(Box.createRigidArea(new Dimension(0,10))); //vertical spacer
+    
+    //set this spinner up for use with integers
+    //the format string "##0" has no decimal places
+    //use intSpinner1.getIntValue() to retrieve the value as an integer
+    
+    MFloatSpinner intSpinner1 = 
+            new MFloatSpinner(1, 1, 100000, 1, "##0", 60, 20);
+    intSpinner1.setName("Integer Spinner 1 -- used for integers");
+    intSpinner1.addChangeListener(this);
+    intSpinner1.setToolTipText("This is float spinner #1!");
+    mainPanel.add(intSpinner1);
+ 
 }// end of View::setupGui
 //-----------------------------------------------------------------------------
 
@@ -372,6 +401,24 @@ public void updateGUIDataSet1()
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
+// View::drawRectangle
+//
+// Draws a rectangle on mainPanel
+//
+
+public void drawRectangle()
+{
+
+    
+    Graphics2D g2 = (Graphics2D)mainPanel.getGraphics();
+
+     // draw Rectangle2D.Double
+    g2.draw(new Rectangle2D.Double(20, 10,10, 10));
+        
+}//end of View::drawRectangle
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
 // View::updateModelDataSet1
 //
 // Updates some of the model data with values in the GUI.
@@ -390,7 +437,7 @@ public void updateModelDataSet1()
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::setupAndStartMainTimer
+// View::setupAndStartMainTimer
 //
 // Prepares and starts a Java Swing timer.
 //
@@ -403,7 +450,35 @@ public void setupAndStartMainTimer()
     mainTimer.setActionCommand ("Timer");
     mainTimer.start();
 
-}// end of Controller::setupAndStartMainTimer
+}// end of View::setupAndStartMainTimer
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// View::setTextForDataTArea1
+//
+// Sets the text value for text box.
+//
+
+public void setTextForDataTArea1(String pText)
+{
+
+    dataTArea1.setText(pText);
+
+}// end of View::setTextForDataTArea1
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// View::setTextForDataTArea2
+//
+// Sets the text value for text box.
+//
+
+public void setTextForDataTArea2(String pText)
+{
+
+    dataTArea2.setText(pText);
+
+}// end of View::setTextForDataTArea2
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
@@ -421,6 +496,20 @@ public void actionPerformed(ActionEvent e)
 
 }//end of View::actionPerformed
 //-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// View::stateChanged
+//
+
+@Override
+public void stateChanged(ChangeEvent ce) {
+   
+    eventHandler.stateChanged(ce);
+    
+}//end of View::stateChanged
+//-----------------------------------------------------------------------------
+
+
 
 //-----------------------------------------------------------------------------
 // View::windowClosing
@@ -462,7 +551,6 @@ public void windowDeiconified(WindowEvent e){}
 
 //end of View::(various window listener functions)
 //-----------------------------------------------------------------------------
-
 
 }//end of class View
 //-----------------------------------------------------------------------------
