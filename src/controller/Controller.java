@@ -177,7 +177,7 @@ public void stateChanged(ChangeEvent ce)
     //cast the object to a Component so it's methods can be accessed
     Component c = (Component)ce.getSource();
     
-    String name = ((Component)ce.getSource()).getName();
+    String name = c.getName();
         
     if (name.startsWith("Double Spinner 1")){
     

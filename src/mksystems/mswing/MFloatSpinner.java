@@ -55,7 +55,7 @@
 *{
 *    
 *    //if for some reason the object which changed state is not a subclass of
-*   //of Component, do nothing as this code only handles Components
+*   //Component, do nothing as this code only handles Components
 *   
 *   if (!(ce.getSource() instanceof Component)) {
 *       return;
@@ -64,8 +64,9 @@
 *   //cast the object to a Component so it's methods can be accessed
 *   Component c = (Component)ce.getSource();
 *   
-*   String name = ((Component)ce.getSource()).getName();
-*       
+*   String name = c.getName();
+* 
+* 
 *   if (name.startsWith("Double Spinner 1")){
 *   
 *       //Since we know that the Component with the name starting with
