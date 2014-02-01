@@ -187,9 +187,19 @@ public void stateChanged(ChangeEvent ce)
         //Since the values in that spinner are meant to be doubles, the
         //getDoubleValue method is used to retrieve the value.
         
-       double value = ((MFloatSpinner)c).getDoubleValue();
+        double value = ((MFloatSpinner)c).getDoubleValue();
     
         view.setTextForDataTArea1("" + value);
+
+        //using getDoubleValue as above will often return a value with a long
+        //fractional portion due to binary floating point conversion
+        //imprecision -- using getText returns the value as a string formatted
+        //exactly as that shown in the spinner's text box and will be rounded
+        //off and truncated in the same manner
+        
+        String textValue = ((MFloatSpinner)c).getText();
+        
+        view.setTextForDataTArea2(textValue);
         
     }
     

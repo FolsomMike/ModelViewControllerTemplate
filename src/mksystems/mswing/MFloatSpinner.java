@@ -74,10 +74,20 @@
 *       //Since the values in that spinner are meant to be doubles, the
 *       //getDoubleValue method is used to retrieve the value.
 *       
-*      double value = ((MFloatSpinner)c).getDoubleValue();
+*       double value = ((MFloatSpinner)c).getDoubleValue();
 *   
 *       view.setTextForDataTArea1("" + value);
-*       
+*
+*       //using getDoubleValue as above will often return a value with a long
+*       //fractional portion due to binary floating point conversion
+*       //imprecision -- using getText returns the value as a string formatted
+*       //exactly as that shown in the spinner's text box and will be rounded
+*       //off and truncated in the same manner
+*        
+*       String textValue = ((MFloatSpinner)c).getText();
+*        
+*       view.setTextForDataTArea2(textValue);
+* 
 *   }
 *   
 *   if (name.startsWith("Integer Spinner 1")){
@@ -145,6 +155,7 @@
 package mksystems.mswing;
 
 import java.awt.Dimension;
+import java.text.DecimalFormat;
 import javax.swing.*;
 
 //-----------------------------------------------------------------------------
@@ -158,6 +169,7 @@ public class MFloatSpinner extends JSpinner
 {
 
     String formatPattern;
+    DecimalFormat decimalFormat;
     public SpinnerNumberModel model;
 
 //-----------------------------------------------------------------------------
@@ -193,6 +205,9 @@ public MFloatSpinner(double pValue, double pMin, double pMax,
     //save the pattern for use by createEditor function
     formatPattern = pFormatPattern;
 
+    //for use in formatting the value in getText method, etc.
+    decimalFormat = new DecimalFormat(formatPattern);
+    
     setEditor(new JSpinner.NumberEditor(this, formatPattern));
 
     //adjust the width as specified if pWidth is not -1
@@ -221,7 +236,6 @@ public MFloatSpinner(double pValue, double pMin, double pMax,
 //
 
 public double getDoubleValue()
-
 {
 
     Double dValue = (Double)getValue();
@@ -238,7 +252,6 @@ public double getDoubleValue()
 //
 
 public int getIntValue()
-
 {
 
     Double dValue = (Double)getValue();
@@ -246,6 +259,29 @@ public int getIntValue()
     return dValue.intValue();
 
 }//end of MFloatSpinner::getInt
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// MFloatSpinner::getText
+//
+// Returns the value in the spinner formatted as the text which is displayed
+// in the spinner itself.
+//
+// This is a quick way to get the text already formatted as it is for display
+// in the spinner.
+//
+// Note: the actual text from the spinners textField cannot be used as it is
+// not updated until AFTER the stateChanged handlers are called. Thus, those
+// handlers would end up retrieving the previous value rather than the new
+// value.
+//
+
+public String getText()
+{
+
+    return(decimalFormat.format((Double)getValue()));
+        
+}//end of MFloatSpinner::getText
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
