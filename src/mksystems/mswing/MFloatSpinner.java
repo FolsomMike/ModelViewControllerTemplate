@@ -32,12 +32,12 @@
 *
 * For integer values:
 * 
-*    MFloatSpinner doubleSpinner1 = 
-*            new MFloatSpinner(5.5, 1.1, 9.9, 0.1, "##0.0", 60, 20);
-*    doubleSpinner1.setName("Double Spinner 1 -- used for doubles");
-*    doubleSpinner1.addChangeListener(this);
-*    doubleSpinner1.setToolTipText("This is float spinner #1!");
-*    mainPanel.add(doubleSpinner1);
+*    MFloatSpinner intSpinner1 = 
+*            new MFloatSpinner(1, 1, 100000, 1, "##0", 60, 20);
+*    intSpinner1.setName("Integer Spinner 1 -- used for integers");
+*    intSpinner1.addChangeListener(this);
+*    intSpinner1.setToolTipText("This is float spinner #1!");
+*    mainPanel.add(intSpinner1);
 *
 * Responding to Changes
 * 
