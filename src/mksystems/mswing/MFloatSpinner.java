@@ -247,7 +247,7 @@ public double getDoubleValue()
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// MFloatSpinner::getInt
+// MFloatSpinner::getIntValue
 //
 // Returns the value in the spinner as an integer.
 //
@@ -259,7 +259,7 @@ public int getIntValue()
 
     return dValue.intValue();
 
-}//end of MFloatSpinner::getInt
+}//end of MFloatSpinner::getIntValue
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
