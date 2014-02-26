@@ -103,11 +103,8 @@ public void appendLine(String pText)
 public void appendToErrorLogFile(String pMessage)
 {
 
-    PrintWriter outputStream = null;
-
-    try {
-
-        outputStream = new PrintWriter(new FileWriter("Error Log.txt", true));
+    try (PrintWriter outputStream = 
+            new PrintWriter(new FileWriter("Error Log.txt", true))) {
 
         outputStream.println(pMessage);
 
@@ -116,11 +113,6 @@ public void appendToErrorLogFile(String pMessage)
 
         //ignore the error -- can't write it to the log file
 
-    }
-    finally {
-        if (outputStream != null) {
-            outputStream.close();
-        }
     }
 
 }//end of Log::appendToErrorLogFile

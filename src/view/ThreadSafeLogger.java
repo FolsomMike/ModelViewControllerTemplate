@@ -32,7 +32,6 @@
 
 package view;
 
-import view.Log;
 import java.io.*;
 import java.util.Date;
 import javax.swing.*;
@@ -221,16 +220,13 @@ public void saveToFileThreadSafe()
     String filename =
         "Log Files" + File.separator + new Date().toString().replace(":", ".")
          + " ~ " + filenameSuffix + ".txt";
-
-    PrintWriter file = null;
-
-    try{
-        file = new PrintWriter(new FileWriter(filename, true));
+    
+    try(PrintWriter file = new PrintWriter(new FileWriter(filename, true))) {
 
         file.println(log.getText().replace("\n", lineSeparator));
 
-        if (file != null) {file.close();}
-
+        file.close();
+        
     }
     catch(IOException e){
 
@@ -239,7 +235,6 @@ public void saveToFileThreadSafe()
         //critical error and should happen rarely
 
         displayErrorMessage("Could not open log file: " + filename);
-        if (file != null) {file.close();}
 
     }
 
