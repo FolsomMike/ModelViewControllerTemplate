@@ -1,13 +1,16 @@
 /******************************************************************************
-* Title: View.java
+* Title: MainView.java
 * Author: Mike Schoonover
 * Date: 3/12/13
 *
 * Purpose:
 *
-* This class is the View in a Model-View-Controller architecture.
+* This class is the Main View in a Model-View-Controller architecture.
 * It creates and handles all GUI components.
 * It knows about the Model, but not the Controller.
+* 
+* There may be many classes in the view package which handle different aspects
+* of the GUI.
 *
 * All GUI control events, including Timer events are caught by this object
 * and passed on to the "Controller" object pointed by the class member
@@ -51,10 +54,10 @@ import model.ADataClass;
 import toolkit.Tools;
 
 //-----------------------------------------------------------------------------
-// class View
+// class MainView
 //
 
-public class View implements ActionListener, WindowListener, ChangeListener
+public class MainView implements ActionListener, WindowListener, ChangeListener
 {
 
     private JFrame mainFrame;
@@ -85,20 +88,20 @@ public class View implements ActionListener, WindowListener, ChangeListener
     private JLabel progressLabel;
 
 //-----------------------------------------------------------------------------
-// View::View (constructor)
+// MainView::MainView (constructor)
 //
 
-public View(EventHandler pEventHandler, ADataClass pADataClass)
+public MainView(EventHandler pEventHandler, ADataClass pADataClass)
 {
 
     eventHandler = pEventHandler;
     aDataClass = pADataClass;
 
-}//end of View::View (constructor)
+}//end of MainView::MainView (constructor)
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::init
+// MainView::init
 //
 // Initializes the object.  Must be called immediately after instantiation.
 //
@@ -135,11 +138,11 @@ public void init()
     //display the main frame
     mainFrame.setVisible(true);
 
-}// end of View::init
+}// end of MainView::init
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::setupMainFrame
+// MainView::setupMainFrame
 //
 // Sets various options and styles for the main frame.
 //
@@ -176,11 +179,11 @@ public void setupMainFrame()
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     //    setLocation((int)screenSize.getWidth() - getWidth(), 0);
 
-}// end of View::setupMainFrame
+}// end of MainView::setupMainFrame
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::setupGUI
+// MainView::setupGUI
 //
 // Sets up the user interface on the mainPanel: buttons, displays, etc.
 //
@@ -286,11 +289,11 @@ private void setupGui()
     intSpinner1.setToolTipText("This is float spinner #1!");
     mainPanel.add(intSpinner1);
  
-}// end of View::setupGui
+}// end of MainView::setupGui
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::createFonts
+// MainView::createFonts
 //
 // Creates fonts for use by the program.
 //
@@ -320,11 +323,11 @@ public void createFonts()
     map.put(TextAttribute.FOREGROUND, Color.YELLOW);
     yellowLargeFont = blackLargeFont.deriveFont(map);
 
-}// end of View::createFonts
+}// end of MainView::createFonts
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::displayLog
+// MainView::displayLog
 //
 // Displays the log window. It is not released after closing as the information
 // is retained so it can be viewed the next time the window is opened.
@@ -335,11 +338,11 @@ public void displayLog()
 
     log.setVisible(true);
 
-}//end of View::displayLog
+}//end of MainView::displayLog
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::displayHelp
+// MainView::displayHelp
 //
 // Displays help information.
 //
@@ -350,11 +353,11 @@ public void displayHelp()
     help = new Help(mainFrame);
     help = null;  //window will be released on close, so point should be null
 
-}//end of View::displayHelp
+}//end of MainView::displayHelp
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::displayAbout
+// MainView::displayAbout
 //
 // Displays about information.
 //
@@ -365,11 +368,11 @@ public void displayAbout()
     about = new About(mainFrame);
     about = null;  //window will be released on close, so point should be null
 
-}//end of View::displayAbout
+}//end of MainView::displayAbout
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::displayErrorMessage
+// MainView::displayErrorMessage
 //
 // Displays an error dialog with message pMessage.
 //
@@ -379,11 +382,11 @@ public void displayErrorMessage(String pMessage)
 
     Tools.displayErrorMessage(pMessage, mainFrame);
 
-}//end of View::displayErrorMessage
+}//end of MainView::displayErrorMessage
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::updateGUIDataSet1
+// MainView::updateGUIDataSet1
 //
 // Updates some of the GUI with data from the model.
 //
@@ -397,11 +400,11 @@ public void updateGUIDataSet1()
 
     dataTArea2.setText(aDataClass.getDataItem(1));
 
-}//end of View::updateGUIDataSet1
+}//end of MainView::updateGUIDataSet1
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::drawRectangle
+// MainView::drawRectangle
 //
 // Draws a rectangle on mainPanel
 //
@@ -415,11 +418,11 @@ public void drawRectangle()
      // draw Rectangle2D.Double
     g2.draw(new Rectangle2D.Double(20, 10,10, 10));
         
-}//end of View::drawRectangle
+}//end of MainView::drawRectangle
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::updateModelDataSet1
+// MainView::updateModelDataSet1
 //
 // Updates some of the model data with values in the GUI.
 //
@@ -433,11 +436,11 @@ public void updateModelDataSet1()
 
     aDataClass.setDataItem(1, dataTArea2.getText());
 
-}//end of View::updateModelDataSet1
+}//end of MainView::updateModelDataSet1
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::setupAndStartMainTimer
+// MainView::setupAndStartMainTimer
 //
 // Prepares and starts a Java Swing timer.
 //
@@ -450,11 +453,11 @@ public void setupAndStartMainTimer()
     mainTimer.setActionCommand ("Timer");
     mainTimer.start();
 
-}// end of View::setupAndStartMainTimer
+}// end of MainView::setupAndStartMainTimer
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::setTextForDataTArea1
+// MainView::setTextForDataTArea1
 //
 // Sets the text value for text box.
 //
@@ -464,11 +467,11 @@ public void setTextForDataTArea1(String pText)
 
     dataTArea1.setText(pText);
 
-}// end of View::setTextForDataTArea1
+}// end of MainView::setTextForDataTArea1
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::setTextForDataTArea2
+// MainView::setTextForDataTArea2
 //
 // Sets the text value for text box.
 //
@@ -478,11 +481,11 @@ public void setTextForDataTArea2(String pText)
 
     dataTArea2.setText(pText);
 
-}// end of View::setTextForDataTArea2
+}// end of MainView::setTextForDataTArea2
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::actionPerformed
+// MainView::actionPerformed
 //
 // Responds to events and passes them on to the "Controller" (MVC Concept)
 // objects.
@@ -494,11 +497,11 @@ public void actionPerformed(ActionEvent e)
 
     eventHandler.actionPerformed(e);
 
-}//end of View::actionPerformed
+}//end of MainView::actionPerformed
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::stateChanged
+// MainView::stateChanged
 //
 
 @Override
@@ -506,13 +509,13 @@ public void stateChanged(ChangeEvent ce) {
    
     eventHandler.stateChanged(ce);
     
-}//end of View::stateChanged
+}//end of MainView::stateChanged
 //-----------------------------------------------------------------------------
 
 
 
 //-----------------------------------------------------------------------------
-// View::windowClosing
+// MainView::windowClosing
 //
 // Handles actions necessary when the window is closing
 //
@@ -527,7 +530,7 @@ public void windowClosing(WindowEvent e)
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// View::(various window listener functions)
+// MainView::(various window listener functions)
 //
 // These functions are implemented per requirements of interface WindowListener
 // but do nothing at the present time.  As code is added to each function, it
@@ -549,9 +552,9 @@ public void windowIconified(WindowEvent e){}
 @Override
 public void windowDeiconified(WindowEvent e){}
 
-//end of View::(various window listener functions)
+//end of MainView::(various window listener functions)
 //-----------------------------------------------------------------------------
 
-}//end of class View
+}//end of class MainView
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------

@@ -20,7 +20,8 @@ package modelviewcontrollertemplate;
 
 //-----------------------------------------------------------------------------
 
-import controller.Controller;
+
+import controller.MainController;
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
@@ -29,12 +30,12 @@ import controller.Controller;
 
 public class Main{
 
-static Controller controller;
+static MainController controller;
 
 //-----------------------------------------------------------------------------
 // Main::createController
 //
-// This method creates an instance of the Controller class which will then
+// This method creates an instance of the MainController class which will then
 // take over.
 //
 // Since it will generally cause the creation of the GUI and show it, for
@@ -49,7 +50,7 @@ private static void createController()
 {
 
     //create the program's controller which will create all other objects
-    controller = new Controller();
+    controller = new MainController();
     controller.init();
 
 }//end of Main::createController

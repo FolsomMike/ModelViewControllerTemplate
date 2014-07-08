@@ -1,16 +1,19 @@
 /******************************************************************************
-* Title: Controller.java
+* Title: MainController.java
 * Author: Mike Schoonover
 * Date: 11/15/12
 *
 * Purpose:
 *
-* This class is the Controller in a Model-View-Controller architecture.
+* This class is the Main Controller in a Model-View-Controller architecture.
 * It creates the Model and the View.
 * It tells the View to update its display of the data in the model.
 * It handles user input from the View (button pushes, etc.)*
 * It tells the Model what to do with its data based on these inputs and tells
 *   the View when to update or change the way it is displaying the data.
+* 
+* There may be many classes in the controller package which handle different
+* aspects of the control functions.
 *
 * In this implementation:
 *   the Model knows only about itself
@@ -45,19 +48,19 @@ import javax.swing.event.ChangeEvent;
 import mksystems.mswing.MFloatSpinner;
 import model.ADataClass;
 import model.Options;
-import view.View;
+import view.MainView;
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-// class Controller
+// class MainController
 //
 
-public class Controller implements EventHandler, Runnable
+public class MainController implements EventHandler, Runnable
 {
 
     private ADataClass aDataClass;
 
-    private View view;
+    private MainView view;
 
     private Options options;
 
@@ -83,17 +86,17 @@ public class Controller implements EventHandler, Runnable
     private final String newline = "\n";
 
 //-----------------------------------------------------------------------------
-// Controller::Controller (constructor)
+// MainController::MainController (constructor)
 //
 
-public Controller()
+public MainController()
 {
 
-}//end of Controller::Controller (constructor)
+}//end of MainController::MainController (constructor)
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::init
+// MainController::init
 //
 // Initializes the object.  Must be called immediately after instantiation.
 //
@@ -104,7 +107,7 @@ public void init()
     aDataClass = new ADataClass();
     aDataClass.init();
 
-    view = new View(this, aDataClass);
+    view = new MainView(this, aDataClass);
     view.init();
 
     //create and load the program options
@@ -115,18 +118,18 @@ public void init()
 
     view.setupAndStartMainTimer();
 
-}// end of Controller::init
+}// end of MainController::init
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::actionPerformed
+// MainController::actionPerformed
 //
 // Responds to events.
 //
 // This is identical to the method employed by  ActionListener objects. This
 // object is not an ActionListener, but uses the same concept for clarity. The
-// "View" (MVC Concept) objects catch GUI events and call this method to pass
-// those events to this "Controller" object.
+// "MainView" (MVC Concept) objects catch GUI events and call this method to pass
+// those events to this "MainController" object.
 //
 
 @Override
@@ -155,11 +158,11 @@ public void actionPerformed(ActionEvent e)
         saveDataToFile();
     }
 
-}//end of Controller::actionPerformed
+}//end of MainController::actionPerformed
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::stateChanged
+// MainController::stateChanged
 //
     
 @Override
@@ -218,26 +221,26 @@ public void stateChanged(ChangeEvent ce)
     }
 
         
-}//end of Controller::stateChanged
+}//end of MainController::stateChanged
 //-----------------------------------------------------------------------------
 
 
 /*
 //-----------------------------------------------------------------------------
-// Controller::paintComponent
+// MainController::paintComponent
 //
 
 @Override
 public void paintComponent (Graphics g)
 {
 
-}// end of Controller::paintComponent
+}// end of MainController::paintComponent
 //-----------------------------------------------------------------------------
 
 */
 
 //-----------------------------------------------------------------------------
-// Controller::loadDataFromFile
+// MainController::loadDataFromFile
 //
 // Loads data from a file.
 //
@@ -251,11 +254,11 @@ public void loadDataFromFile()
 
     view.drawRectangle();
     
-}//end of Controller::loadDataFromFile
+}//end of MainController::loadDataFromFile
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::saveDataToFile
+// MainController::saveDataToFile
 //
 // Saves data to a file.
 //
@@ -267,11 +270,11 @@ public void saveDataToFile()
 
     aDataClass.saveToTextFile();
 
-}//end of Controller::saveDataToFile
+}//end of MainController::saveDataToFile
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::doTimerActions
+// MainController::doTimerActions
 //
 // Performs actions driven by the timer.
 //
@@ -282,11 +285,11 @@ public void doTimerActions()
 {
 
 
-}//end of Controller::doTimerActions
+}//end of MainController::doTimerActions
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::displayLog
+// MainController::displayLog
 //
 // Displays the log window. It is not released after closing as the information
 // is retained so it can be viewed the next time the window is opened.
@@ -297,11 +300,11 @@ private void displayLog()
 
     view.displayLog();
 
-}//end of Controller::displayLog
+}//end of MainController::displayLog
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::displayHelp
+// MainController::displayHelp
 //
 // Displays help information.
 //
@@ -311,11 +314,11 @@ private void displayHelp()
 
     view.displayHelp();
 
-}//end of Controller::displayHelp
+}//end of MainController::displayHelp
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::displayAbout
+// MainController::displayAbout
 //
 // Displays about information.
 //
@@ -325,22 +328,22 @@ private void displayAbout()
 
     view.displayAbout();
 
-}//end of Controller::displayAbout
+}//end of MainController::displayAbout
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::doSomething1
+// MainController::doSomething1
 //
 
 private void doSomething1()
 {
 
 
-}//end of Controller::doSomething1
+}//end of MainController::doSomething1
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::doSomethingInWorkerThread
+// MainController::doSomethingInWorkerThread
 //
 // Does nothing right now -- modify it to call a function which takes a long
 // time to finish. It will be run in a background thread so the GUI is still
@@ -408,22 +411,22 @@ private void doSomethingInWorkerThread()
     };//end of class SwingWorker
     //----------------------------------------------------------------------
 
-}//end of Controller::doSomethingInWorkerThread
+}//end of MainController::doSomethingInWorkerThread
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::doSomething2
+// MainController::doSomething2
 //
 
 private void doSomething2()
 {
 
 
-}//end of Controller::doSomething2
+}//end of MainController::doSomething2
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::run
+// MainController::run
 //
 // This is the part which runs as a separate thread.  The actions of accessing
 // remote devices occur here.  If they are done in a timer call instead, then
@@ -448,11 +451,11 @@ public void run()
 
     }
 
-}//end of Controller::run
+}//end of MainController::run
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::threadSleep
+// MainController::threadSleep
 //
 // Calls the Thread.sleep function. Placed in a function to avoid the
 // "Thread.sleep called in a loop" warning -- yeah, it's cheezy.
@@ -463,11 +466,11 @@ public void threadSleep(int pSleepTime)
 
     try {Thread.sleep(pSleepTime);} catch (InterruptedException e) { }
 
-}//end of Controller::threadSleep
+}//end of MainController::threadSleep
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::control
+// MainController::control
 //
 // Performs all display and control.  Call this from a thread.
 //
@@ -489,11 +492,11 @@ public void control()
         System.exit(0);
     }
 
-}//end of Controller::control
+}//end of MainController::control
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::displayErrorMessage
+// MainController::displayErrorMessage
 //
 // Displays an error dialog with message pMessage.
 //
@@ -503,11 +506,11 @@ public void displayErrorMessage(String pMessage)
 
     view.displayErrorMessage(pMessage);
 
-}//end of Controller::displayErrorMessage
+}//end of MainController::displayErrorMessage
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::shutDown
+// MainController::shutDown
 //
 // Disables chassis power and performs any other appropriate shut down
 // operations.
@@ -521,11 +524,11 @@ public void shutDown()
 
     shutDown = true;
 
-}//end of Controller::shutDown
+}//end of MainController::shutDown
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::windowClosing
+// MainController::windowClosing
 //
 // Handles actions necessary when the window is closing
 //
@@ -538,11 +541,11 @@ public void windowClosing(WindowEvent e)
 
     shutDown();
 
-}//end of Controller::windowClosing
+}//end of MainController::windowClosing
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Controller::(various window listener functions)
+// MainController::(various window listener functions)
 //
 // These functions are implemented per requirements of interface WindowListener
 // but do nothing at the present time.  As code is added to each function, it
@@ -564,10 +567,10 @@ public void windowIconified(WindowEvent e){}
 @Override
 public void windowDeiconified(WindowEvent e){}
 
-//end of Controller::(various window listener functions)
+//end of MainController::(various window listener functions)
 //-----------------------------------------------------------------------------
     
     
-}//end of class Controller
+}//end of class MainController
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
