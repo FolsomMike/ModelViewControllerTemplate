@@ -1,11 +1,17 @@
 /******************************************************************************
-* Title: Main.java - Main Source File for Temperature Monitor
+* Title: Main.java - Main Source File for a program based on the
+*                                              ModelViewController Template
 * Author: Mike Schoonover
-* Date: 11/15/12
+* Date: 11/15/13
 *
 * Purpose:
 *
-* This application is used to insert content into HTML pages.
+* This application is based on the ModelViewController Template. For detailed
+* info on the purpose of the program, view the comments at the top of the
+* controller.MainController class.
+*
+* This class does nothing more than create an instance of
+* controller.MainController and pass control to it.
 *
 * Open Source Policy:
 *
