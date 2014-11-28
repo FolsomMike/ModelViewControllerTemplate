@@ -191,23 +191,27 @@ public void setupMainFrame()
 private void setupGui()
 {
 
-    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+    
+    JPanel controlsPanel = new JPanel();
+    
+    controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
 
-    mainPanel.add(Box.createRigidArea(new Dimension(0,20))); //vertical spacer
+    addVerticalSpacer(controlsPanel, 20);
 
     //create a label to display good/warning/bad system status
     statusLabel = new JLabel("Status");
     statusLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    mainPanel.add(statusLabel);
+    controlsPanel.add(statusLabel);
 
-    mainPanel.add(Box.createRigidArea(new Dimension(0,20))); //vertical spacer
+    addVerticalSpacer(controlsPanel, 20);
 
     //create a label to display miscellaneous info
     infoLabel = new JLabel("Info");
     infoLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    mainPanel.add(infoLabel);
+    controlsPanel.add(infoLabel);
 
-    mainPanel.add(Box.createRigidArea(new Dimension(0,20))); //vertical spacer
+    addVerticalSpacer(controlsPanel, 20);
 
     //add text field
     dataVersionTField = new JTextField("unknown");
@@ -215,19 +219,19 @@ private void setupGui()
     Tools.setSizes(dataVersionTField, 100, 24);
     //text fields don't have action commands or action listeners
     dataVersionTField.setToolTipText("The data format version.");
-    mainPanel.add(dataVersionTField);
+    controlsPanel.add(dataVersionTField);
 
-    mainPanel.add(Box.createRigidArea(new Dimension(0,3))); //vertical spacer
-
+    addVerticalSpacer(controlsPanel, 3);
+    
     //add text field
     dataTArea1 = new JTextField("");
     dataTArea1.setAlignmentX(Component.LEFT_ALIGNMENT);
     Tools.setSizes(dataTArea1, 100, 24);
     //text fields don't have action commands or action listeners
     dataTArea1.setToolTipText("A data entry.");
-    mainPanel.add(dataTArea1);
-
-    mainPanel.add(Box.createRigidArea(new Dimension(0,3))); //vertical spacer
+    controlsPanel.add(dataTArea1);
+    
+    addVerticalSpacer(controlsPanel, 3);    
 
     //add text field
     dataTArea2 = new JTextField("");
@@ -235,9 +239,9 @@ private void setupGui()
     Tools.setSizes(dataTArea2, 100, 24);
     //text fields don't have action commands or action listeners
     dataTArea2.setToolTipText("A data entry.");
-    mainPanel.add(dataTArea2);
+    controlsPanel.add(dataTArea2);
 
-    mainPanel.add(Box.createRigidArea(new Dimension(0,20))); //vertical spacer
+    addVerticalSpacer(controlsPanel, 20);
 
     //add button
     JButton loadBtn = new JButton("Load");
@@ -245,25 +249,25 @@ private void setupGui()
     loadBtn.setActionCommand("Load Data From File");
     loadBtn.addActionListener(this);
     loadBtn.setToolTipText("Load data from file.");
-    mainPanel.add(loadBtn);
+    controlsPanel.add(loadBtn);
 
-    mainPanel.add(Box.createRigidArea(new Dimension(0,10))); //vertical spacer
-
+    addVerticalSpacer(controlsPanel, 10);
+    
     //add a button
     JButton saveBtn = new JButton("Save");
     saveBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
     saveBtn.setActionCommand("Save Data To File");
     saveBtn.addActionListener(this);
     saveBtn.setToolTipText("Save data to file.");
-    mainPanel.add(saveBtn);
+    controlsPanel.add(saveBtn);
 
-    mainPanel.add(Box.createRigidArea(new Dimension(0,10))); //vertical spacer
+    addVerticalSpacer(controlsPanel, 10);    
 
     progressLabel = new JLabel("Progress");
     progressLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    mainPanel.add(progressLabel);
+    controlsPanel.add(progressLabel);
 
-    mainPanel.add(Box.createRigidArea(new Dimension(0,10))); //vertical spacer
+    addVerticalSpacer(controlsPanel, 10);    
 
     //set this spinner up for use with doubles
     //the format string "##0" has decimal places
@@ -274,9 +278,9 @@ private void setupGui()
     doubleSpinner1.setName("Double Spinner 1 -- used for doubles");
     doubleSpinner1.addChangeListener(this);
     doubleSpinner1.setToolTipText("This is float spinner #1!");
-    mainPanel.add(doubleSpinner1);
+    controlsPanel.add(doubleSpinner1);
 
-    mainPanel.add(Box.createRigidArea(new Dimension(0,10))); //vertical spacer
+    addVerticalSpacer(controlsPanel, 10);
     
     //set this spinner up for use with integers
     //the format string "##0" has no decimal places
@@ -287,9 +291,25 @@ private void setupGui()
     intSpinner1.setName("Integer Spinner 1 -- used for integers");
     intSpinner1.addChangeListener(this);
     intSpinner1.setToolTipText("This is float spinner #1!");
-    mainPanel.add(intSpinner1);
+    controlsPanel.add(intSpinner1);
  
+    mainPanel.add(controlsPanel);
+    
 }// end of MainView::setupGui
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// MainView::addVerticalSpacer
+//
+// Adds a vertical spacer of pNumPixels height to JPanel pTarget.
+//
+
+private void addVerticalSpacer(JPanel pTarget, int pNumPixels)
+{
+
+    pTarget.add(Box.createRigidArea(new Dimension(0,pNumPixels)));
+    
+}// end of MainView::addVerticalSpacer
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
